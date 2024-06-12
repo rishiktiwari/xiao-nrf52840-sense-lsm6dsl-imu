@@ -51,7 +51,6 @@
 		ficr: ficr@10000000 {
 			compatible = "nordic,nrf-ficr";
 			reg = < 0x10000000 0x1000 >;
-			#nordic,ficr-cells = < 0x1 >;
 			status = "okay";
 		};
 		uicr: uicr@10001000 {
@@ -123,7 +122,6 @@
 			reg = < 0x40003000 0x1000 >;
 			clock-frequency = < 0x61a80 >;
 			interrupts = < 0x3 0x1 >;
-			easydma-maxcnt-bits = < 0x10 >;
 			status = "okay";
 			pinctrl-0 = < &i2c0_default >;
 			pinctrl-1 = < &i2c0_sleep >;
@@ -152,7 +150,6 @@
 			reg = < 0x40004000 0x1000 >;
 			clock-frequency = < 0x186a0 >;
 			interrupts = < 0x4 0x1 >;
-			easydma-maxcnt-bits = < 0x10 >;
 			status = "okay";
 			pinctrl-0 = < &i2c1_default >;
 			pinctrl-1 = < &i2c1_sleep >;
@@ -174,13 +171,11 @@
 			interrupts = < 0x5 0x1 >;
 			status = "okay";
 		};
-		gpiote: gpiote0: gpiote@40006000 {
+		gpiote: gpiote@40006000 {
 			compatible = "nordic,nrf-gpiote";
 			reg = < 0x40006000 0x1000 >;
 			interrupts = < 0x6 0x5 >;
 			status = "okay";
-			instance = < 0x0 >;
-			phandle = < 0xf >;
 		};
 		adc: adc@40007000 {
 			compatible = "nordic,nrf-saadc";
@@ -206,7 +201,7 @@
 			max-bit-width = < 0x20 >;
 			interrupts = < 0x9 0x1 >;
 			prescaler = < 0x0 >;
-			phandle = < 0x10 >;
+			phandle = < 0xf >;
 		};
 		timer2: timer@4000a000 {
 			compatible = "nordic,nrf-timer";
@@ -342,7 +337,7 @@
 			pinctrl-0 = < &pwm0_default >;
 			pinctrl-1 = < &pwm0_sleep >;
 			pinctrl-names = "default", "sleep";
-			phandle = < 0x12 >;
+			phandle = < 0x11 >;
 		};
 		pdm0: pdm@4001d000 {
 			compatible = "nordic,nrf-pdm";
@@ -513,7 +508,6 @@
 			#gpio-cells = < 0x2 >;
 			status = "okay";
 			port = < 0x0 >;
-			gpiote-instance = < &gpiote >;
 			phandle = < 0x6 >;
 		};
 		gpio1: gpio@50000300 {
@@ -524,15 +518,19 @@
 			ngpios = < 0x10 >;
 			status = "okay";
 			port = < 0x1 >;
-			gpiote-instance = < &gpiote >;
-			phandle = < 0x11 >;
+			phandle = < 0x10 >;
 		};
 		cryptocell: crypto@5002a000 {
-			compatible = "nordic,cryptocell", "arm,cryptocell-310";
-			reg = < 0x5002a000 0x1000 >, < 0x5002b000 0x1000 >;
-			reg-names = "wrapper", "core";
-			interrupts = < 0x2a 0x1 >;
+			compatible = "nordic,nrf-cc310";
+			reg = < 0x5002a000 0x1000 >;
 			status = "okay";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x1 >;
+			cryptocell310: crypto@5002b000 {
+				compatible = "arm,cryptocell-310";
+				reg = < 0x5002b000 0x1000 >;
+				interrupts = < 0x2a 0x1 >;
+			};
 		};
 	};
 	pinctrl: pin-controller {
